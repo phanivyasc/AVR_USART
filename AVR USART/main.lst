@@ -1,0 +1,148 @@
+   1               		.file	"main.c"
+   2               		.arch atmega8535
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	USART_Init
+  20               	USART_Init:
+  21               	.LFB3:
+  22               	.LM1:
+  23               	/* prologue: frame size=0 */
+  24               	/* prologue end (size=0) */
+  25               	.LM2:
+  26 0000 87E6      		ldi r24,lo8(103)
+  27 0002 89B9      		out 41-0x20,r24
+  28               	.LM3:
+  29 0004 10BC      		out 64-0x20,__zero_reg__
+  30               	.LM4:
+  31 0006 86E8      		ldi r24,lo8(-122)
+  32 0008 80BD      		out 64-0x20,r24
+  33               	.LM5:
+  34 000a 88E0      		ldi r24,lo8(8)
+  35 000c 8AB9      		out 42-0x20,r24
+  36               	/* epilogue: frame size=0 */
+  37 000e 0895      		ret
+  38               	/* epilogue end (size=1) */
+  39               	/* function USART_Init size 8 (7) */
+  40               	.LFE3:
+  42               	.global	Uart_PutChar
+  44               	Uart_PutChar:
+  45               	.LFB4:
+  46               	.LM6:
+  47               	/* prologue: frame size=0 */
+  48 0010 1F93      		push r17
+  49               	/* prologue end (size=1) */
+  50               	.LVL0:
+  51 0012 182F      		mov r17,r24
+  52               	.LM7:
+  53 0014 8A30      		cpi r24,lo8(10)
+  54 0016 01F4      		brne .L8
+  55               	.LM8:
+  56 0018 8DE0      		ldi r24,lo8(13)
+  57               	.LVL1:
+  58 001a 00D0      		rcall Uart_PutChar
+  59               	.LVL2:
+  60               	.LVL3:
+  61               	.L8:
+  62               	.LM9:
+  63 001c 5D9B      		sbis 43-0x20,5
+  64 001e 00C0      		rjmp .L8
+  65               	.LM10:
+  66 0020 1CB9      		out 44-0x20,r17
+  67               	.LM11:
+  68 0022 80E0      		ldi r24,lo8(0)
+  69 0024 90E0      		ldi r25,hi8(0)
+  70               	/* epilogue: frame size=0 */
+  71 0026 1F91      		pop r17
+  72 0028 0895      		ret
+  73               	/* epilogue end (size=2) */
+  74               	/* function Uart_PutChar size 13 (10) */
+  75               	.LFE4:
+  77               		.data
+  78               	.LC0:
+  79 0000 5553 4152 		.string	"USART"
+  79      5400 
+  80               	.LC1:
+  81 0006 6869 00   		.string	"hi"
+  82               		.text
+  83               	.global	main
+  85               	main:
+  86               	.LFB5:
+  87               	.LM12:
+  88               	/* prologue: frame size=0 */
+  89               	/* prologue end (size=0) */
+  90               	.LBB4:
+  91               	.LBB5:
+  92               	.LM13:
+  93 002a 87E6      		ldi r24,lo8(103)
+  94 002c 89B9      		out 41-0x20,r24
+  95               	.LM14:
+  96 002e 10BC      		out 64-0x20,__zero_reg__
+  97               	.LM15:
+  98 0030 86E8      		ldi r24,lo8(-122)
+  99 0032 80BD      		out 64-0x20,r24
+ 100               	.LM16:
+ 101 0034 88E0      		ldi r24,lo8(8)
+ 102 0036 8AB9      		out 42-0x20,r24
+ 103               	.LBE5:
+ 104               	.LBE4:
+ 105               	.LM17:
+ 106 0038 80E0      		ldi r24,lo8(uart_str)
+ 107 003a 90E0      		ldi r25,hi8(uart_str)
+ 108 003c 9093 0000 		sts (__iob+2)+1,r25
+ 109 0040 8093 0000 		sts __iob+2,r24
+ 110               	.LM18:
+ 111 0044 00D0      		rcall LCDinit
+ 112               	.LM19:
+ 113 0046 00D0      		rcall LCDclr
+ 114               	.LM20:
+ 115 0048 65E0      		ldi r22,lo8(5)
+ 116 004a 80E0      		ldi r24,lo8(.LC0)
+ 117 004c 90E0      		ldi r25,hi8(.LC0)
+ 118 004e 00D0      		rcall LCDstring
+ 119               	.L12:
+ 120               	.LM21:
+ 121 0050 80E0      		ldi r24,lo8(.LC1)
+ 122 0052 90E0      		ldi r25,hi8(.LC1)
+ 123 0054 00D0      		rcall puts
+ 124 0056 00C0      		rjmp .L12
+ 125               	/* epilogue: frame size=0 */
+ 126               	/* epilogue: noreturn */
+ 127               	/* epilogue end (size=0) */
+ 128               	/* function main size 23 (23) */
+ 129               	.LFE5:
+ 131               	.global	uart_str
+ 132               		.data
+ 135               	uart_str:
+ 136 0009 0000 00   		.skip 3,0
+ 137 000c 02        		.byte	2
+ 138 000d 0000 0000 		.skip 4,0
+ 139 0011 0000      		.word	gs(Uart_PutChar)
+ 140 0013 0000      		.word	0
+ 141 0015 0000      		.word	0
+ 182               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:3      *ABS*:0000003f __SREG__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:4      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:5      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:20     .text:00000000 USART_Init
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:44     .text:00000010 Uart_PutChar
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:85     .text:0000002a main
+C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp/cclV6Pb6.s:135    .data:00000009 uart_str
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__iob
+LCDinit
+LCDclr
+LCDstring
+puts
